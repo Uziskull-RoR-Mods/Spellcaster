@@ -1,0 +1,8 @@
+{
+    "name": "Spellcaster",
+    "description": "Adds a new survivor, Spellcaster, that uses mouse-pointed wands to cast spells.",
+	"internalname": "casterSurvivor",
+    "version": "0.1.0",
+    "author": "Uziskull",
+    "mpcompat": true
+}
