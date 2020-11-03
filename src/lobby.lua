@@ -27,15 +27,28 @@ local function colorHUD(inst, frames)
         instData.dropDown = true
     end
     if frames == 1 or instData.prevHudW ~= nil and instData.prevHudW ~= hudW then
-        inst.x, inst.y = hudW - invHUD.colorHUDLength - 16, 64
+        if Room.getCurrentRoom():getName() == "SelectMult" then
+            inst.x, inst.y = hudW - invHUD.colorHUDLength - 16, 64
+        else
+            inst.x, inst.y = hudW / 2 - invHUD.colorHUDLength, hudH / 2
+        end
         instData.heldX, instData.heldY = nil, nil
     end
     if instData.heldX ~= nil and instData.heldY ~= nil then
         inst.x, inst.y = mouseX - instData.heldX, mouseY - instData.heldY
     end
     
-    local prePlayer = Object.find("PrePlayer"):find(1)
-    if prePlayer ~= nil and prePlayer:get("class") == casterSurvivorID then
+    local classID
+    local player = Object.find("PrePlayer"):find(1)
+    if player then
+        classID = player:get("class")
+    else
+        player = Object.find("Select"):find(1)
+        if not player then player = Object.find("SelectCoop"):find(1) end
+        classID = player:get("choice")
+    end
+    
+    if classID and classID == casterSurvivorID then
         local gamepad = nil
         
         -- draw stuff
@@ -141,7 +154,7 @@ end
 
 registercallback("globalRoomStart", function(room)
     if room:getOrigin() ~= "Vanilla" then return end
-    if room:getName() == "SelectMult" then
+    if room:getName():sub(1, 6) == "Select" then
         graphics.bindDepth(-10, colorHUD)
     end
 end)

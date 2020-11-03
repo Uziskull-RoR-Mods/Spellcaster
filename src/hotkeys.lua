@@ -1,5 +1,12 @@
 -- made by Uziskull
 
+local keyboardSpr = Sprite.find("KeyboardButtons")
+local controlPopup = Sprite.load("hud_control_popup", "spr/hud/control/popup", 2, 104, 18) --85, 18)
+local controlMouseAim = Sprite.load("hud_control_aim", "spr/hud/control/mouseAim", 1, 16, 23)
+local controlMouseLeft = Sprite.load("hud_control_left", "spr/hud/control/mouseLeft", 1, 7, 12)
+local controlMouseRight = Sprite.load("hud_control_right", "spr/hud/control/mouseRight", 1, 7, 12)
+local controlMouseWheel = Sprite.load("hud_control_wheel", "spr/hud/control/mouseWheel", 1, 7, 12)
+
 local controls = {
     keyboard = {
         INVENTORY_KEY = "i",
@@ -216,3 +223,79 @@ function saveConfig()
         save.write("gamepad-"..key, value[2])
     end
 end
+
+--==== display controls at game start ====--
+
+--keyboard button frames: A-Z (1-26), spacebar, up arrow, down arrow, left arrow, right arrow, blank key, blank spacebar (33)
+
+function controlDisplayPopup(handler, frame)
+    if frame >= 10 * 60 then
+        handler:destroy()
+        return
+    end
+    
+    local alpha = frame <= 9 * 60 and 1 or (10 * 60 - frame) / 60
+    local gamepad, player = handler:getData().gamepad, handler:getData().player
+    
+    graphics.drawImage{
+        controlPopup, handler.x, handler.y - 32,
+        subimage = frame % (2*60) < 60 and 1 or 2,
+        alpha = alpha
+    }
+    
+    if not gamepad then
+        graphics.drawImage{
+            keyboardSpr, handler.x - 16 - 30 - 31, handler.y - 32 + 5 + 8,
+            subimage = controls.keyboard.INVENTORY_KEY:lower():byte() - 96,
+            alpha = alpha
+        }
+        graphics.drawImage{
+            controlMouseAim, handler.x - 16, handler.y - 32 + 5 + 16,
+            alpha = alpha
+        }
+        graphics.drawImage{
+            controlMouseLeft, handler.x + 30, handler.y - 32 + 5 + 16,
+            alpha = alpha
+        }
+        graphics.drawImage{
+            controlMouseWheel, handler.x + 30 + 25 + 30, handler.y - 32 + 5 + 16,
+            alpha = alpha
+        }
+    else
+        graphics.alpha(alpha)
+        graphics.print(
+            getGamepadString(controls.gamepad.INVENTORY_KEY, player),
+            handler.x - 16 - 30 - 31, handler.y - 32 + 5 + 8,
+            nil, graphics.ALIGN_MIDDLE, graphics.ALIGN_CENTER
+        )
+        graphics.print(
+            getGamepadString("stick"..(controls.gamepad.AIM_STICK_HORIZONTAL:sub(1, 1)), player),
+            handler.x - 16, handler.y - 32 + 5 + 16,
+            nil, graphics.ALIGN_MIDDLE, graphics.ALIGN_CENTER
+        )
+        graphics.print(
+            getGamepadString(controls.gamepad.FIRE_KEY, player),
+            handler.x + 30, handler.y - 32 + 5 + 16,
+            nil, graphics.ALIGN_MIDDLE, graphics.ALIGN_CENTER
+        )
+        graphics.print(
+            getGamepadString(controls.gamepad.SCROLL_UP, player) .. getGamepadString(controls.gamepad.SCROLL_DOWN, player),
+            handler.x + 30 + 25 + 30, handler.y - 32 + 5 + 16,
+            nil, graphics.ALIGN_MIDDLE, graphics.ALIGN_CENTER
+        )
+        graphics.alpha(1)
+    end
+end
+
+callback.register("onPlayerStep", function(player)
+    if player:getSurvivor() == caster then
+        if misc.hud and not misc.hud:getData().shownControls then
+            local handler = graphics.bindDepth(-7, controlDisplayPopup)
+            local spawn = Object.find("Base"):find(1)
+            handler.x, handler.y = spawn.x + 50, spawn.y - 100
+            handler:getData().player = player
+            handler:getData().gamepad = input.getPlayerGamepad(player)
+            misc.hud:getData().shownControls = true
+        end
+    end
+end)

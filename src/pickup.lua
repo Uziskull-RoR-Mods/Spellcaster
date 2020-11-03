@@ -156,8 +156,17 @@ registercallback("onStep", function()
             tpData = currTp:getData()
             if tpData.spawnedPickups == nil and currTp:get("active") >= 3 then
                 tpData.spawnedPickups = true
-                spawnPickups(currTp.x, currTp.y)
-                packets.spawnPickups:sendAsHost(net.ALL, nil)
+                local casterExists = false
+                for _, p in ipairs(misc.players) do
+                    if p:getSurvivor() == caster then
+                        casterExists = true
+                        break
+                    end
+                end
+                if casterExists then
+                    spawnPickups(currTp.x, currTp.y)
+                    packets.spawnPickups:sendAsHost(net.ALL, nil)
+                end
             end
         end
     end

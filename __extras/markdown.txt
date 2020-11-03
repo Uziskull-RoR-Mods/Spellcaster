@@ -1,0 +1,48 @@
+TODO: make a proper mod description with pictures and all that fancy jazz
+
+**This is Noita in Risk of Rain** (kinda). Please report any bugs, errors, unintended behavior or complaints so I can fix it, thank you! (@Uziskull 🔧#9341)
+
+**NOTE**: This mod uses the mouse to aim and fire wands (or the right joystick, if you are using a gamepad). Gamepad users can just load the mod and play, but for an enjoyable gameplay, keyboard users should reconfigure their movement keys to WASD or something nearby (and likely move some other keys around).
+
+----
+
+**Stuff:**
+
+- **Controls (supports gamepad)**
+    - Scroll between wands with ``Scroll Wheel`` (or ``L1`` and ``R1``)
+    - Aim wands with ``Mouse`` (or ``Right Joystick``)
+    - Fire said wands with ``Left Click`` (or ``R2``)
+    - Open your inventory with ``I`` (or ``L2``)
+    - Gamepad controls and deadzone percentage can be configured in ``Inventory > Game Options`` (gamepad icon at the bottom-right)
+- **Character**
+    - Does not regenerate health (health regen is provided at the end of a stage)
+    - Cannot jump, but flies instead (with limited fuel that regenerates, sorta like Photon Jetpack)
+    - Has no skills, uses wands to deal damage instead
+    - Pick up different wands as you progress to increase your arsenal
+- **Wands**
+    - Randomized stats, sprites and names
+    - Experiment with different cooldowns, multicasting, shuffling and other stats to select the best wands
+    - Share any dumb name combinations you may find (please)
+- **Spells**
+    - Spells can be projectiles (do something) or modifiers (make the next spell do something)
+    - Currently, there are 10 unique spells and 4 modifiers (will add more)
+    - Chain different modifiers and projectiles to make fancy stuff happen
+- **Inventory**
+    - Holds up to 4 wands and 16 separate spells
+    - Can reorder wands
+    - At the end of a stage, you can also reorder spells between wands/inventory to create a beast of a weapon
+    - Can pick your own character's color (so you can become the better looking wizard in multiplayer)
+- **Map Objects**
+    - Get new wands/spells by finding pedestals and shops around the map
+    - Remember: you can only hold up to four wands and spells are only reorderable after a stage is complete, so make your choices wisely
+    - Some pedestals may be trapped
+
+----
+
+**Changelog:**
+
+- **0.0.1**: Released
+    - *0.0.2*: Added three new spells and one modifier, changed some wand mechanics around, fixed bug with spell recharging
+    - *0.0.3*: Fixed leftover debug stuff and some text displays going off bounds, oops
+- **0.1.0**: Added timed and trigger spells, and one modifier. Character colors can now be edited in the character selection screen.
+  Added popup for displaying controls. Tweaked some spells, fixed some buggy bugs (and created several others lol)
